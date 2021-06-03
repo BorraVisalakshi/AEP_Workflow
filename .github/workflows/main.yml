@@ -28,5 +28,5 @@ jobs:
       run: dir
       
     - name: Move to U Drive
-      run: move WebApp.zip \\corp\aepnas01\userdata2$\s316735:\Vishali
+      run: move WebApp.zip \\corp\aepnas01\userdata2$\s316735\Vishali
      
