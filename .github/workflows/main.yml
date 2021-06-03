@@ -27,6 +27,6 @@ jobs:
     - name: Check Directory
       run: dir
       
-    - name: Move to U Drive
-      run: move WebApp.zip \\corp\aepnas01\userdata2$\s316735\Vishali
+    - name: Move to X Drive
+      run: move WebApp.zip \\hqcelfs01\xchange\Temp_AEPCommon\Vishali
      
