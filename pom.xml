@@ -83,8 +83,8 @@
 					<action>deploy</action>
 					<remote>false</remote>
 					<verbose>true</verbose>
-					<source>D:/SpringHelloWorld/HelloWorld/target/HelloWorld.war</source>
-					<name>SpringApp</name>
+					<source>U:\GitHub_Actions\Git\AEP_Workflow\target\HelloWorld.war</source>
+					<name>HelloWorld</name>
 				</configuration>
 				<!-- <executions> <execution> <phase>install</phase> <goals> <goal>deploy</goal> 
 					</goals> </execution> </executions> -->
