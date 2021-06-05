@@ -22,17 +22,23 @@ jobs:
     - name: Zip the code
       uses: papeloto/action-zip@v1
       with:
-          dest: WebApp.zip
+          dest: App.zip
           
     - name: Check Directory
       run: dir
       
     - name: Move to X Drive
-      run: move WebApp.zip \\hqcelfs01\xchange\Temp_AEPCommon\AppSrcScan\
+      run: move App.zip \\hqcelfs01\xchange\Temp_AEPCommon\Vishali\
       
       
    # - name: Upload to Artifactory Repo
     #  run:  Remove-item alias:curl;
           #  curl -X PUT -u ${{ secrets.ARTIFACTORY_USERNAME }}:${{ secrets.ARTIFACTORY_PASSWORD }} -T C:\GitHub_Actions\AEP_Job\SelfHosted_runner\Workspace\AEP_Workflow\AEP_Workflow\target\HelloWorld.war "http://localhost:8082/artifactory/CG_AEP-libs-release-local/HelloWorld.war"
 
-     
+    - name: Deploy to Tomcat
+      run: mvn tomcat7:deploy
+      
+    - name: Deploy to Weblogic
+      run: mvn weblogic:deploy
+      
+      
