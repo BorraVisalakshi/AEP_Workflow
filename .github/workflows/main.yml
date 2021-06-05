@@ -8,7 +8,7 @@ on:
     branches: [ main ]
  
 jobs:
-  build:
+  Build_Deploy:
 
     runs-on: self-hosted
 
@@ -42,4 +42,49 @@ jobs:
     - name: Deploy to Weblogic
       run: mvn weblogic:deploy
       
+  Connect_to_EC2:
+   
+    runs-on: ubuntu-latest
+    needs: Build_Deploy
+    
+    steps:
+   
+   #Checkout the code
+     - name: Step-1 Checkout the code
+       uses: actions/checkout@v2
+       
+  #Build with maven
+     - name: Step-2 Build with maven
+       run: 
+            mvn clean;
+            mvn install;
+
+    #Velify the all the folders in Main Directory     
+     - name: Step-3 Connect to EC2 via SSH
+       uses: fifsky/ssh-action@master
+       with:
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            host: ${{ secrets.HOST }}
+            port: ${{ secrets.PORT }}
+            user: ${{ secrets.USER }}
+            command: 
+                    sudo su;
+                    ls -a;
+
+    #Copy via SCP to remote repository ec2           
+     - name: Step-4 Copy a file via ssh password
+       uses: noobly314/deploy-with-scp@v1
+       with:
+          server-ip: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.USER }}
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
+          src: "/home/runner/work/AEP_Workflow/AEP_Workflow/target/HelloWorld.war"
+          dest: "/home/ec2-user/GitHub_Actions/" 
+   
+   #Dpeloy to Tomcat on EC2 Instances
+     - name: Step:5 Deploy to Tomcat on EC2
+       run: curl -u ${{ secrets.TOMCAT_USER }}:${{ secrets.TOMCAT_PASSWORD }} -T /home/runner/work/AEP_Workflow/AEP_Workflow/target/HelloWorld.war "http://ec2-3-140-245-162.us-east-2.compute.amazonaws.com:8080/manager/text/deploy?path=/HelloWorld"
+       
+       
       
