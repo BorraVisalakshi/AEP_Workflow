@@ -32,16 +32,21 @@ jobs:
       run: move App.zip \\hqcelfs01\xchange\Temp_AEPCommon\Vishali\
       
       
-   # - name: Upload to Artifactory Repo
-    #  run:  Remove-item alias:curl;
-          #  curl -X PUT -u ${{ secrets.ARTIFACTORY_USERNAME }}:${{ secrets.ARTIFACTORY_PASSWORD }} -T C:\GitHub_Actions\AEP_Job\SelfHosted_runner\Workspace\AEP_Workflow\AEP_Workflow\target\HelloWorld.war "http://localhost:8082/artifactory/CG_AEP-libs-release-local/HelloWorld.war"
+    - name: Upload to Artifactory Repo
+      run:  Remove-item alias:curl;
+            curl -X PUT -u ${{ secrets.ARTIFACTORY_USERNAME }}:${{ secrets.ARTIFACTORY_PASSWORD }} -T C:\GitHub_Actions\AEP_Job\SelfHosted_runner\Workspace\AEP_Workflow\AEP_Workflow\target\HelloWorld.war "http://localhost:8082/artifactory/CG_AEP-libs-release-local/HelloWorld.war"
 
+    - name: Copy jar/war to local from Remote Server   
+      run: scp -o  StrictHostKeyChecking=no -i \\corp\aepnas01\userdata2$\s316735\GitHub_Actions\PPK\POC_AWS.pem ${{ secrets.USER }}@${{ secrets.HOST }}:/home/ec2-user/GitHub_Actions/HelloWorld.war \\corp\aepnas01\userdata2$\s316735
+   
     - name: Deploy to Tomcat
       run: mvn tomcat7:deploy
       
     - name: Deploy to Weblogic
       run: mvn weblogic:deploy
       
+    
+#Running another Job on ubuntu-latest   
   Connect_to_EC2:
    
     runs-on: ubuntu-latest
@@ -84,7 +89,7 @@ jobs:
    
    #Dpeloy to Tomcat on EC2 Instances
      - name: Step:5 Deploy to Tomcat on EC2
-       run: curl -u ${{ secrets.TOMCAT_USER }}:${{ secrets.TOMCAT_PASSWORD }} -T /home/runner/work/AEP_Workflow/AEP_Workflow/target/HelloWorld.war "http://ec2-3-140-245-162.us-east-2.compute.amazonaws.com:8080/manager/text/deploy?path=/HelloWorld"
+       run: curl -u ${{ secrets.TOMCAT_USER }}:${{ secrets.TOMCAT_PASSWORD }} -T /home/runner/work/AEP_Workflow/AEP_Workflow/target/HelloWorld.war "http://ec2-18-117-134-233.us-east-2.compute.amazonaws.com:8080/manager/text/deploy?path=/HelloWorld"
        
        
       
