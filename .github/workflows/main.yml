@@ -45,7 +45,8 @@ jobs:
       
     - name: Send for Scan
       if: ${{ github.event.inputs.scan == 'yes' }}
-      run: move App.zip \\hqcelfs01\xchange\Temp_AEPCommon\Vishali\
+      run: move App.zip \\hqcelfs01\xchange\Temp_AEPCommon\AppSrcScan\
+      #\\hqcelfs01\xchange\Temp_AEPCommon\Vishali\
       
       
     - name: Upload to Artifactory Repo
