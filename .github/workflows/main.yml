@@ -20,7 +20,7 @@ jobs:
       run: mvn clean install
       
   
-      #check directory    
+      #check directory in aep and cg  
     - name: Check Directory
       run: dir
       
