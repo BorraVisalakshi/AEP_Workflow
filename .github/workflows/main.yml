@@ -4,24 +4,8 @@
 name: Multi Jobs Workflow
 
 on:
-  workflow_dispatch:
-    inputs:
-      scan:
-       description: 'Send for scan'
-       required: true
-       default: ''
-      artifactory:
-       description: 'Upload to Artifactory'
-       required: true
-       default: ''
-      tomcat:
-       description: 'Deploy to tomcat'
-       required: true
-       default: ''
-      weblogic:
-       description: 'Deploy to Weblogic'
-       required: true
-       default: ''
+  push:
+
 jobs:
   Build_Deploy:
 
@@ -44,23 +28,9 @@ jobs:
       run: dir
       
     - name: Send for Scan
-      if: ${{ github.event.inputs.scan == 'yes' }}
-      run: move App.zip \\hqcelfs01\xchange\Temp_AEPCommon\AppSrcScan\
+      run: move App.zip C:\Users
       #\\hqcelfs01\xchange\Temp_AEPCommon\Vishali\
       
-      
-    - name: Upload to Artifactory Repo
-      if: ${{ github.event.inputs.artifactory == 'yes' }}
-      run:  Remove-item alias:curl;
-            curl -X PUT -u ${{ secrets.ARTIFACTORY_USERNAME }}:${{ secrets.ARTIFACTORY_PASSWORD }} -T C:\GitHub_Actions\AEP_Job\SelfHosted_runner\Workspace\AEP_Workflow\AEP_Workflow\target\HelloWorld.war "http://localhost:8082/artifactory/CG_AEP-libs-release-local/HelloWorld.war"
 
- 
-    - name: Deploy to Tomcat
-      if: ${{ github.event.inputs.tomcat == 'yes' }}
-      run: mvn tomcat7:deploy
-      
-    - name: Deploy to Weblogic
-      if: ${{ github.event.inputs.weblogic == 'yes' }}
-      run: mvn weblogic:deploy
-      
+   
   
