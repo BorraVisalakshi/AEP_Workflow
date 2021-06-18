@@ -19,18 +19,9 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
       
-    - name: Zip the code
-      uses: papeloto/action-zip@v1
-      with:
-          dest: App.zip
+  
           
     - name: Check Directory
       run: dir
       
-    - name: Send for Scan
-      run: move App.zip C:\Users
-      #\\hqcelfs01\xchange\Temp_AEPCommon\Vishali\
-      
-
-   
-  
+    
